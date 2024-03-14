@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -12,9 +13,9 @@ return new class extends Migration {
     {
         Schema::create('t_stok', function (Blueprint $table) {
             $table->id('stok_id');
-            $table->unsignedBigInteger('barang_id')->index();
-            $table->unsignedBigInteger('user_id')->index();
-            $table->dateTimeTz('stok_tanggal');
+            $table->unsignedBigInteger('barang_id');
+            $table->unsignedBigInteger('user_id');
+            $table->dateTime('stok_tanggal');
             $table->integer('stok_jumlah');
             $table->timestamps();
 
@@ -22,7 +23,6 @@ return new class extends Migration {
             $table->foreign('user_id')->references('user_id')->on('m_user');
         });
     }
-
 
     /**
      * Reverse the migrations.
