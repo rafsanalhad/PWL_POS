@@ -8,16 +8,19 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman Home
+Route::get('/', function () {
+    return view('welcome');
+});
 Route::get('/home', function () {
     return view('home');
 });
 
 // Halaman Product
-Route::prefix('category')->group(function() {
-    Route::get('/foodbeverage', [ProductController::class,'foodbeverage']);
-    Route::get('/beautyhealth', [ProductController::class,'beautyhealth']);
-    Route::get('/homecare', [ProductController::class,'homecare']);
-    Route::get('/babykid', [ProductController::class,'babykid']);
+Route::prefix('category')->group(function () {
+    Route::get('/foodbeverage', [ProductController::class, 'foodbeverage']);
+    Route::get('/beautyhealth', [ProductController::class, 'beautyhealth']);
+    Route::get('/homecare', [ProductController::class, 'homecare']);
+    Route::get('/babykid', [ProductController::class, 'babykid']);
 });
 
 Route::get('/category', function () {
@@ -30,14 +33,14 @@ Route::get('/category', function () {
 // });
 
 // Halaman Penjualan
-Route::get('/penjualan', [PenjualanController::class,'penjualan']);
+Route::get('/penjualan', [PenjualanController::class, 'penjualan']);
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/level', [LevelController::class,'index']);
-Route::get('/kategori', [KategoriController::class,'index']);
+Route::get('/level', [LevelController::class, 'index']);
+Route::get('/kategori', [KategoriController::class, 'index']);
 Route::get('/user', [UserController::class, 'index']);
 Route::get('/user/tambah', [UserController::class, 'tambah']);
 Route::post('user/tambah_simpan', [UserController::class, 'tambah_simpan']);
