@@ -14,6 +14,12 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('home');
 });
+Route::get('/form-level', function () {
+    return view('form_level');
+});
+Route::get('/form-user', function () {
+    return view('form_user');
+});
 
 // Halaman Product
 Route::prefix('category')->group(function () {
