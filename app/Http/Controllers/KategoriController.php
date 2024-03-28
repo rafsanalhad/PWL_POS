@@ -7,7 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use App\DataTables\KategoriDataTable;
 use App\Models\KategoriModel;
-
+use Illuminate\Support\Facades\Validator;
 
 class KategoriController extends Controller
 {
@@ -21,14 +21,22 @@ class KategoriController extends Controller
     }
     public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'kategori_kode' => 'required',
-            'kategori_nama' => 'required',
+        $validator = Validator::make($request->all(), [
+            'kategori_kode' => 'bail|required|unique:m_kategori',
+            'kategori_nama' => 'bail|required',
         ]);
+
+        if ($validator->fails()) {
+            return redirect('/kategori/create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         KategoriModel::create([
             'kategori_kode' => $request->kategori_kode,
             'kategori_nama' => $request->kategori_nama,
         ]);
+
         return redirect('/kategori');
     }
     public function edit($id)
