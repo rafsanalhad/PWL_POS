@@ -11,9 +11,5 @@
         "laravel-vite-plugin": "^1.0.0",
         "sass": "^1.72.0",
         "vite": "^5.0.0"
-    },
-    "dependencies": {
-        "@prettier/plugin-php": "^0.22.2",
-        "prettier": "^3.2.5"
     }
 }
