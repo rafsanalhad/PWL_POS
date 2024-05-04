@@ -25,7 +25,6 @@ class UserModel extends Authenticatable implements JWTSubject
     }
 
     protected $table = "m_user";
-    public $timestamps = false;
     protected $primaryKey = 'user_id';
     protected $fillable = [
         'user_id',
@@ -33,22 +32,14 @@ class UserModel extends Authenticatable implements JWTSubject
         'username',
         'nama',
         'password',
+        'created_at',
+        'updated_at'
     ];
+
+    public $timestamps = true;
 
     public function level(): BelongsTo
     {
         return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
     }
 }
-// class UserModel extends Authenticatable
-// {
-//     use HasFactory;
-//     protected $table = 'm_user';
-
-//     protected $primaryKey = 'user_id';
-//     protected $fillable = ['level_id', 'username', 'nama', 'password'];
-//     public function level(): BelongsTo
-//     {
-//         return $this->belongsTo(LevelModel::class, 'level_id', 'level_id');
-//     }
-// }

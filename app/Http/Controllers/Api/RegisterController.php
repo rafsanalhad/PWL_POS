@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
+    use \Illuminate\Database\Eloquent\Concerns\HasTimestamps;
     public function __invoke(Request $request){
         $validator = Validator::make($request->all(), [
             'username' => 'required',
