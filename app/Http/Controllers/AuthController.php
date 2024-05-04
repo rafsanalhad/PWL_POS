@@ -30,21 +30,18 @@ class AuthController extends Controller
             'username' => 'required',
             'password' => 'required'
         ]);
-    
-        $credentials = $request->only('username', 'password');
-    
-        if (!$token = auth()->attempt($credentials)) {
-            return redirect('login')->withInput()->withErrors(['login_gagal' => 'Pastikan kembali username dan password yang dimasukkan sudah benar']);
+        $credential = $request->only('username', 'password');
+        if (Auth::attempt($credential)) {
+            $user = Auth::user();
+            if ($user->level_id == '1') {
+                return redirect()->intended('admin');
+            } else if ($user->level_id == '2') {
+                return redirect()->intended('manager');
+            }
+            return redirect()->intended('/');
         }
-    
-        $user = Auth::user();
-        if ($user->level_id == '1') {
-            return redirect()->intended('admin');
-        } else if ($user->level_id == '2') {
-            return redirect()->intended('manager');
-        }
-    
-        return redirect()->intended('/');
+        return redirect('login')->withInput()
+            ->withErrors(['login_gagal' => 'Pastikan kembali username dan password yang dimasukkan sudah benar']);
     }
     public function register()
     {

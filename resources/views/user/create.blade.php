@@ -13,7 +13,7 @@
                     <div class="col-11">
                         <select class="form-control" id="level_id" name="level_id" required>
                             <option value="">- Pilih Level -</option>
-                            @foreach($level as $item)
+                            @foreach ($level as $item)
                                 <option value="{{ $item->level_id }}">{{ $item->level_nama }}</option>
                             @endforeach
                         </select>
@@ -35,8 +35,8 @@
                 <div class="form-group row">
                     <label class="col-1 control-label col-form-label">Nama</label>
                     <div class="col-11">
-                        <input type="text" class="form-control" id="nama" name="nama"
-                            value="{{ old('nama') }}" required>
+                        <input type="text" class="form-control" id="nama" name="nama" value="{{ old('nama') }}"
+                            required>
                         @error('nama')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
@@ -45,8 +45,7 @@
                 <div class="form-group row">
                     <label class="col-1 control-label col-form-label">Password</label>
                     <div class="col-11">
-                        <input type="password" class="form-control" id="password"
-                            name="password" required>
+                        <input type="password" class="form-control" id="password" name="password" required>
                         @error('password')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror

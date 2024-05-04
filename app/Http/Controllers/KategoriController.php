@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use App\DataTables\KategoriDataTable;
+use App\Models\KategoriModel;
 use App\Models\m_kategori;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -24,14 +25,14 @@ class KategoriController extends Controller
 
         $activeMenu = 'kategori';
 
-        $kategori = m_kategori::all();
+        $kategori = KategoriModel::all();
 
         return view('kategori.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'kategori' => $kategori]);
     }
 
     public function list(Request $request)
     {
-        $kategoris = m_kategori::select('kategori_id', 'kategori_kode', 'kategori_nama');
+        $kategoris = KategoriModel::select('kategori_id', 'kategori_kode', 'kategori_nama');
         if ($request->kategori_id) {
             $kategoris->where('kategori_id', $request->kategori_id);
         }
@@ -58,7 +59,7 @@ class KategoriController extends Controller
             'title' => 'Tambah Kategori Baru'
         ];
 
-        $kategori = m_kategori::all(); //ambil data untuk ditampilkan di form
+        $kategori = KategoriModel::all(); //ambil data untuk ditampilkan di form
         $activeMenu = 'kategori';
         return view('kategori.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kategori' => $kategori, 'activeMenu' => $activeMenu]);
     }
@@ -69,7 +70,7 @@ class KategoriController extends Controller
             'kategori_kode' => 'bail|required|string|unique:m_kategori,kategori_kode',
             'kategori_nama' => 'required|string|max:100',
         ]);
-        m_kategori::create([
+        KategoriModel::create([
             'kategori_kode' => $request->kategori_kode,
             'kategori_nama' => $request->kategori_nama,
         ]);
@@ -78,7 +79,7 @@ class KategoriController extends Controller
 
     public function show(string $id)
     {
-        $kategori = m_kategori::find($id);
+        $kategori = KategoriModel::find($id);
 
         $breadcrumb = (object)[
             'title' => 'Detail Kategori',
@@ -95,7 +96,7 @@ class KategoriController extends Controller
 
     public function edit($id)
     {
-        $kategori = m_kategori::find($id);
+        $kategori = KategoriModel::find($id);
         // $kategori = LevelModel::all();
 
         $breadcrumb = (object)[
@@ -118,7 +119,7 @@ class KategoriController extends Controller
             'kategori_nama' => 'required|string|max:100',
         ]);
 
-        m_kategori::find($id)->update([
+        KategoriModel::find($id)->update([
             'kategori_kode' => $request->kategori_kode,
             'kategori_nama' => $request->kategori_nama,
         ]);
@@ -128,13 +129,13 @@ class KategoriController extends Controller
 
     public function destroy(string $id)
     {
-        $check = m_kategori::find($id);
+        $check = KategoriModel::find($id);
         if (!$check) {
             return redirect('/kategori')->with('error', 'Data kategori tidak ditemukan');
         }
 
         try {
-            m_kategori::destroy($id);
+            KategoriModel::destroy($id);
 
             return redirect('/kategori')->with('success', 'Data kategori berhasil dihapus');
         } catch (\illuminate\Database\QueryException $e) {
@@ -165,7 +166,7 @@ class KategoriController extends Controller
     // public function index(KategoriDataTable $dataTable){
     //     return $dataTable->render('kategori.index');
     // }
-    
+
     // public function edit($id){
     //     $data = KategoriModel::find($id);
     //     return view('kategori.edit', [

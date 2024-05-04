@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+
 class PenjualanController extends Controller
 {
     public function index()
@@ -26,13 +27,14 @@ class PenjualanController extends Controller
         $activeMenu = 'penjualan';
 
         $barang = m_barang::all();
+        $penjualan =  t_penjualan::all();
 
-        return view('penjualan.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'barang' => $barang]);
+        return view('penjualan.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'barang' => $barang, 'penjualan' => $penjualan]);
     }
     public function list(Request $request)
     {
         $penjualans = t_penjualan::select('penjualan_id', 'pembeli', 'user_id', 'penjualan_tanggal', 'penjualan_kode')->with('user')
-            ->withCount(['penjualan_detail as total_harga' => function (Builder $query) {
+            ->withCount(['penjualan_detail as total_harga' => function ($query) {
                 $query->select(DB::raw('SUM(harga) as total_harga')); // Gunakan alias untuk hasil perhitungan
             }]);
 

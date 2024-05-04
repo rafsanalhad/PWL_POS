@@ -2,24 +2,29 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\UserModel;
 use App\Http\Controllers\Controller;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
-    use \Illuminate\Database\Eloquent\Concerns\HasTimestamps;
-    public function __invoke(Request $request){
+    public function __invoke(Request $request)
+    {
+        // set validation
         $validator = Validator::make($request->all(), [
             'username' => 'required',
             'nama' => 'required',
             'password' => 'required|min:5|confirmed',
-            'level_id' => 'required',
+            'level_id' => 'required'
         ]);
-        if($validator->fails()){
+
+        //if validations fails
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
+
+        //create user
         $user = UserModel::create([
             'username' => $request->username,
             'nama' => $request->nama,
@@ -27,15 +32,17 @@ class RegisterController extends Controller
             'level_id' => $request->level_id,
         ]);
 
-        if($user){
+        //return response JSON user is created
+        if ($user) {
             return response()->json([
                 'success' => true,
                 'user' => $user,
             ], 201);
         }
+
+        //return JSON process insert failed
         return response()->json([
             'success' => false,
-            'message' => 'Register failed',
         ], 409);
     }
 }
